@@ -7,7 +7,7 @@ use std::fs;
 use std::str::FromStr;
 use std::time::Duration;
 use tokio_postgres::{Config, Error, NoTls};
-use crate::{DBCon, DBPool, error};
+use crate::{error, error::Error::*, DBCon, DBPool};
 use crate::error::Error::{DBInitError, DBPoolError};
 
 type Result<T> = std::result::Result<T, error::Error>;

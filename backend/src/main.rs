@@ -1,10 +1,13 @@
 use mobc::{Connection, Pool};
 use mobc_postgres::PgConnectionManager;
 use mobc_postgres::tokio_postgres::NoTls;
+use warp::Rejection;
 
 mod db;
 mod error;
+mod handler;
 
+type Result<T> = std::result::Result<T, Rejection>;
 type DBCon = Connection<PgConnectionManager<NoTls>>;
 type DBPool = Pool<PgConnectionManager<NoTls>>;
 

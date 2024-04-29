@@ -6,15 +6,20 @@
  * @LastEditTime: 2024-04-28 16:09:16
  * @LastEditors: PhilRandWu
  */
+use serde::{Deserialize, Serialize};
+
+#[derive(Deserialize, Clone, PartialEq, Debug)]
 pub struct Owner {
     pub id: i32,
     pub name: String,
 }
 
+#[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
 pub struct OwnerRequest {
     pub name: String,
 }
 
+#[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
 pub struct OwnerResponse {
     pub id: i32,
     pub name: String,
@@ -29,6 +34,7 @@ impl OwnerResponse {
     }
 }
 
+#[derive(Deserialize, Clone, PartialEq, Debug)]
 pub struct Pet {
     pub id: i32,
     pub name: String,
@@ -37,12 +43,14 @@ pub struct Pet {
     pub color: Option<String>,
 }
 
+#[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
 pub struct PetRequest {
     pub name: String,
     pub animal_type: String,
     pub color: Option<String>,
 }
 
+#[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
 pub struct PetResponse {
     pub id: i32,
     pub name: String,
