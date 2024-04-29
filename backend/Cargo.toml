@@ -1,0 +1,19 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { version = "=1.37.0", features = ["macros", "rt-multi-thread", "rt"] }
+warp = "=0.3.7"
+mobc = "=0.8.4"
+mobc-postgres = { version = "=0.8.0", features = [
+    "with-chrono-0_4",
+    "with-serde_json-1",
+] }
+serde = { version = "=1.0.199", features = ["derive"] }
+serde_json = "=1.0.116"
+thiserror = "=1.0.59"
+common = { version = "0.1.0", path = "../common" }
