@@ -1,7 +1,8 @@
+use std::convert::Infallible;
 use mobc::{Connection, Pool};
 use mobc_postgres::PgConnectionManager;
 use mobc_postgres::tokio_postgres::NoTls;
-use warp::Rejection;
+use warp::{Filter, Rejection, wrap_fn};
 
 mod db;
 mod error;
@@ -18,4 +19,31 @@ async fn main() {
     db::init_db(&db_pool)
         .await
         .expect("database can be initialized");
+
+    let pet = warp::path!("owner" / i32 / "pet");
+    let pet_param = warp::path!("owner" / i32 / "pet" / i32);
+    let owner = warp::path("owner");
+
+    let pet_routes = pet
+        .and(warp::get())
+        .and(with_db(db_pool.clone()))
+        .and_then(handler::list_pets_handler)
+        .or(
+            pet.and(warp::post())
+                .and(warp::body::json())
+                .and(with_db(db_pool.clone()))
+                .and_then(handler::create_pet_handler)
+        )
+        .or(
+            pet_param
+                .and(warp::delete())
+                .and(with_db(db_pool.clone()))
+                .and_then(handler::delete_pet_handler)
+        );
+
+    warp::serve(pet_routes).run(([127, 0, 0, 1], 8000)).await;
+}
+
+fn with_db(db_pool: DBPool) -> impl Filter<Extract=(DBPool, ), Error=Infallible> + Clone {
+    warp::any().map(move || db_pool.clone())
 }

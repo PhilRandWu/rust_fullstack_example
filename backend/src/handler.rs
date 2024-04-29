@@ -23,12 +23,13 @@ pub async fn create_pet_handler(
     )))
 }
 
-pub async fn delete(db_pool: DBPool, owner_id: i32, id: i32) -> Result<impl Reply> {
+pub async fn delete_pet_handler(owner_id: i32, id: i32, db_pool: DBPool) -> Result<impl Reply> {
     db::pet::delete(&db_pool, owner_id, id)
         .await
         .map_err(reject::custom)?;
     Ok(StatusCode::OK)
 }
+
 
 
 pub async fn list_owners_handler(db_pool: DBPool) -> Result<impl Reply> {
