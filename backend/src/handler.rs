@@ -41,14 +41,14 @@ pub async fn list_owners_handler(db_pool: DBPool) -> Result<impl Reply> {
     ))
 }
 
-pub async fn fetch_owner_handler(db_pool: DBPool, id: i32) -> Result<impl Reply> {
+pub async fn fetch_owner_handler(id: i32,db_pool: DBPool) -> Result<impl Reply> {
     let owner = db::owner::fetch_one(&db_pool, id)
         .await
         .map_err(reject::custom)?;
     Ok(json(&OwnerResponse::of(owner)))
 }
 
-pub async fn create_owner_handler(db_pool: DBPool, body: OwnerRequest) -> Result<impl Reply> {
+pub async fn create_owner_handler(body: OwnerRequest,db_pool: DBPool) -> Result<impl Reply> {
     Ok(json(&OwnerResponse::of(
         db::owner::create(&db_pool, body)
             .await

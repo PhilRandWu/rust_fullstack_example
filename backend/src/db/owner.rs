@@ -28,7 +28,7 @@ pub async fn fetch_one(db_pool: &DBPool, id: i32) -> Result<Owner> {
 
 pub async fn create(db_pool: &DBPool, body: OwnerRequest) -> Result<Owner> {
     let con = get_db_con(db_pool).await?;
-    let query = format!("INSERT INTO {} (name) VALUE ($1) RETURNING *", TABLE);
+    let query = format!("INSERT INTO {} (name) VALUES ($1) RETURNING *", TABLE);
 
     let row = con
         .query_one(query.as_str(), &[&body.name])
